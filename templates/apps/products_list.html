@@ -1,0 +1,84 @@
+{% extends 'apps/base/navbar.html' %}
+{% block body %}
+<div class="container border-bottom-4">
+            <div class="header_tab_menu ">
+                <div class="header_menu active" style="overflow: auto">
+                    <a href="{% url 'products' %}?category=all" class="btn btn-default active">
+                        Barchasi
+                    </a>
+                    {% for category in categories %}
+                    	<a href="{% url 'products' %}?category={{ category.slug }}" class="btn btn-default">
+                            {{ category.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+       <div class="card mb-3">
+        <div class="card-body">
+            <div class="row">
+                {% for product in products %}
+                    <div class="mb-4 col-md-6 col-lg-4">
+                        <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
+                            <div class="overflow-hidden">
+                                <div class="position-relative rounded-top overflow-hidden"><a class="d-block"
+                                                                                              href="{% url 'detail' product.slug %}"><img
+                                        class="img-fluid rounded-top" src="{{ product.images.first.image.url }}"
+                                        alt=""/></a><span
+                                        class="badge rounded-pill bg-success position-absolute mt-2 me-2 z-index-2 top-0 end-0">New</span>
+                                </div>
+                                <div class="p-3">
+                                    <h5 class="fs-0"><a class="text-dark"
+                                                        href="{% url 'detail' product.slug %}">{{ product.name }}</a>
+                                    </h5>
+                                    <p class="fs--1 mb-3"><a class="text-500" href="{% url 'products' %}?category={{ category.slug }}">{{ product.category }}</a>
+                                    </p>
+                                    <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3"> ${{ product.price }}
+                                    </h5>
+                                    <p class="fs--1 mb-1">Shipping Cost: <strong>$10</strong></p>
+                                    {% if product.quantity %}
+                                    	<p class="fs--1 mb-1">Stock: <strong class="text-success">Available</strong>
+                                    {% else %}
+                                       <p class="fs--1 mb-1">Stock: <strong class="text-danger">Unavailable</strong>
+                                    {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-between-center px-3">
+                                <div><span class="fa fa-star text-warning"></span><span
+                                        class="fa fa-star text-warning"></span><span
+                                        class="fa fa-star text-warning"></span><span
+                                        class="fa fa-star text-warning"></span><span
+                                        class="fa fa-star text-300"></span><span class="ms-1">(8)</span>
+                                </div>
+                                <div><a class="btn btn-sm btn-falcon-default me-2" href="#!" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Add to Wish List"><span
+                                        class="far fa-heart"></span></a><a
+                                        class="btn btn-sm btn-falcon-default" href="#!" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Add to Cart"><span
+                                        class="fas fa-cart-plus"></span></a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card-footer bg-light d-flex justify-content-center">
+            <div>
+                <a class="btn btn-falcon-default btn-sm me-2"
+                   href="{% if page_obj.has_previous %} ?page={{ page_obj.previous_page_number }} {% endif %}"
+                   type="button" {% if not page_obj.has_previous %} disabled="disabled" {% endif %}
+                   data-bs-toggle="tooltip" data-bs-placement="top" title="Prev"><span
+                        class="fas fa-chevron-left"></span></a>
+                <a class="btn btn-sm btn-falcon-default text-primary me-2" href="#">{{ page_obj.number }}</a>
+                <a class="btn btn-falcon-default btn-sm" data-bs-toggle="tooltip"
+                   href="{% if page_obj.has_next %} ?page={{ page_obj.next_page_number }} {% endif %}" type="button"
+                        {% if not page_obj.has_next %} disabled="disabled" {% endif %}
+                   data-bs-placement="top" title="Next"><span class="fas fa-chevron-right"></span></a>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'apps/base/navbar.html' %}
+{% load static %}
+
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-9">
+            <div class="card mb-3 btn-reveal-trigger">
+                <div class="card-header position-relative min-vh-25 mb-7">
+
+                    <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
+                        <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"><img
+                                src="https://m.media-amazon.com/images/I/51i5ScZaGGL._AC_UF894,1000_QL80_.jpg" width="200" alt=""
+                                data-dz-thumbnail="data-dz-thumbnail"/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-0">
+        <div class="col-lg-8 pe-lg-2">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0">Profile Settings</h5>
+                </div>
+                <form method="post" class="row g-3">
+                    {% csrf_token %}
+                    <div class="card-body bg-light">
+                        <div class="col-lg-6">
+                            <label class="form-label" for="imageFile">Select Image:</label>
+                            <input  type="file" id="imageFile" name="image" accept="image/*" required>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label" for="first-name">First Name</label>
+                            <input class="form-control" id="first-name" type="text" name="first_name"
+                                   value="{{ request.user.first_name }}"/>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label" for="last-name">Last Name</label>
+                            <input class="form-control" id="last-name" type="text" name="last_name"
+                                   value="{{ request.user.last_name }}"/>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label" for="email1">Email</label>
+                            <input class="form-control" id="email1" type="text" name="email"
+                                   value="{{ request.user.email }}"/>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label" for="email2">Phone</label>
+                            <input class="form-control" id="email2" type="text" name="phone_number"
+                                   value="{{ request.user.phone_number }}"/>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label" for="email3">Username</label>
+                            <input class="form-control" type="text" name="username" placeholder="username"
+                                   value="{{ request.user.username }}"/>
+                        </div>
+
+                        <div class="col-6 d-flex justify-content-end">
+                            <button class="btn btn-primary" type="submit">Update</button>
+                        </div>
+                    </div>
+                </form>
+                    
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
