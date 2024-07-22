@@ -7,7 +7,7 @@ from apps.views import CategoryListView, CustomLoginView, ProductListView, Order
 urlpatterns = [
     path('', CategoryListView.as_view(), name='home'),
     path('login', CustomLoginView.as_view(), name='login'),
-    path('', LogoutView.as_view(), name='logout'),
+    path('logout', LogoutView.as_view(template_name='apps/home_page.html'), name='logout'),
     path('product', ProductListView.as_view(), name='products'),
     path('orders', OrderListView.as_view(), name='orders'),
     path('liked', LikedProductsView.as_view(), name='liked'),
