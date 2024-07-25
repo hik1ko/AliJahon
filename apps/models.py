@@ -102,3 +102,16 @@ class Product(BaseSlugModel, BaseModel):
 class ProductImage(Model):
     image = ImageField(upload_to='products/')
     product = ForeignKey('apps.Product', CASCADE, related_name='images')
+
+
+class Wishlist(BaseModel):
+    product = ForeignKey('apps.Product', CASCADE, related_name='wishlists')
+    user = ForeignKey('apps.User', CASCADE, related_name='wishlists')
+
+
+class Order(BaseModel):
+    product = ForeignKey('apps.Product', CASCADE, related_name='orders')
+    quantity = IntegerField(default=1)
+    user = ForeignKey('apps.User', CASCADE, related_name='orders')
+    full_name = CharField(max_length=255)
+    phone_number = CharField(max_length=20)

@@ -1,12 +1,14 @@
 import re
 
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView, ListView, FormView, DetailView
 
 from apps.forms import ProfileForm
-from apps.models import Category, Product, User
+from apps.models import Category, Product, User, Wishlist, Order
 
 
 class CategoryListView(ListView):
@@ -87,12 +89,50 @@ class OverallProfileView(TemplateView):
     template_name = 'apps/auth/overall_profile.html'
 
 
-class LikedProductsView(ListView):
-    template_name = 'apps/liked_products_list.html'
+class WishListView(LoginRequiredMixin, ListView):
+    queryset = Wishlist.objects.all()
+    template_name = 'apps/wishlist.html'
+    paginate_by = 12
+    context_object_name = "wishlists"
+
+    def get_queryset(self):
+        query = super().get_queryset().filter(user=self.request.user)
+        return query
+
+
+class LikeProductView(View):
+    def post(self, request, *args, **kwargs):
+        product = get_object_or_404(Product, slug=kwargs.get('slug'))
+        obj, created = Wishlist.objects.get_or_create(user=request.user, product=product)
+        if not created:
+            obj.delete()
+            return JsonResponse({'save': 0})
+        return JsonResponse({'save': 1})
+
+    def get_queryset(self):
+        query = super().get_queryset().filter(user=self.request.user)
+        return query
 
 
 class OrderListView(ListView):
-    template_name = 'apps/orders.html'
+    template_name = 'apps/order/orders.html'
+    queryset = Order.objects.all()
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        query = super().get_queryset().filter(user=self.request.user)
+        return query
 
 
+class MarketListView(ListView):
+    template_name = 'apps/stream/product_market.html'
+    queryset = Category.objects.all()
+    context_object_name = 'categories'
 
+    def get_context_data(self,*args, **kwargs):
+        data = super().get_context_data(*args,**kwargs)
+        products = Product.objects.all()
+        if slug:=self.request.GET.get("category"):
+            products = products.filter(category__slug=slug)
+        data['products'] = products
+        return data

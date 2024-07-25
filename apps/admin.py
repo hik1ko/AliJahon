@@ -18,16 +18,3 @@ class ProductImageInline(StackedInline):
 class ProductAdmin(ModelAdmin):
     exclude = 'slug',
     inlines = ProductImageInline,
-    list_display = 'name', 'price', 'category', 'image_photo', 'is_exists'
-
-    @admin.display(empty_value='?')
-    def image_photo(self, obj):
-        photo = obj.images.first().image.url
-        return format_html("<img src='{}' style='width:50px'/>", photo)
-
-    @admin.display(empty_value='?')
-    def is_exists(self, obj):
-        if obj.quantity > 0:
-            return format_html()
-        else:
-            return format_html()
