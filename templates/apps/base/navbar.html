@@ -125,15 +125,15 @@
                       <hr class="mb-0 navbar-vertical-divider" />
                     </div>
                   </div>
-                      <a class="nav-link" href="{% url 'home' %}" role="button" aria-expanded="false">
+                      <a class="nav-link" href="{% url 'market' %}" role="button" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calendar-alt"></span></span><span class="nav-link-text ps-1">Market</span>
                     </div>
                   </a>
-                      <a class="nav-link" href="{% url 'home' %}" role="button" aria-expanded="false">
+                      <a class="nav-link" href="{% url 'stream-list' %}" role="button" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calendar-alt"></span></span><span class="nav-link-text ps-1">Oqim</span>
                     </div>
                   </a>
-                      <a class="nav-link" href="{% url 'home' %}" role="button" aria-expanded="false">
+                      <a class="nav-link" href="{% url 'stats' %}" role="button" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calendar-alt"></span></span><span class="nav-link-text ps-1">Statistika</span>
                     </div>
                   </a>
@@ -145,12 +145,8 @@
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calendar-alt"></span></span><span class="nav-link-text ps-1">Konkurs</span>
                     </div>
                   </a>
-                      <a class="nav-link" href="{% url 'home' %}" role="button" aria-expanded="false">
+                      <a class="nav-link" href="{% url 'payment' %}" role="button" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calendar-alt"></span></span><span class="nav-link-text ps-1">To'lov</span>
-                    </div>
-                  </a>
-                      <a class="nav-link" href="{% url 'home' %}" role="button" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calendar-alt"></span></span><span class="nav-link-text ps-1">Diagrammalar</span>
                     </div>
                   </a>
 
@@ -304,6 +300,8 @@
       </div>
     </div><a class="card setting-toggle" href="#settings-offcanvas" data-bs-toggle="offcanvas">
     </a>
+
+    {% include 'apps/base/scripts.html' %}
 
 
     <!-- ===============================================-->

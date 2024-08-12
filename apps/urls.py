@@ -2,7 +2,8 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path
 
 from apps.views import CategoryListView, CustomLoginView, ProductListView, OrderListView, WishListView, \
-    ProfileFormView, OverallProfileView, ProductDetailView, LikeProductView
+    ProfileFormView, OverallProfileView, ProductDetailView, LikeProductView, ForMpttListView, MarketListView, \
+    StreamFormView, StreamListView, StreamDetailsView, StatsView, PaymentView
 
 urlpatterns = [
     path('', CategoryListView.as_view(), name='home'),
@@ -16,4 +17,17 @@ urlpatterns = [
     path('overall', OverallProfileView.as_view(), name='overall'),
     path('profile', ProfileFormView.as_view(), name='profile'),
     path('detail/<str:slug>', ProductDetailView.as_view(), name='detail'),
+    path('cat', ForMpttListView.as_view(), name='category_mptt'),
+]
+
+urlpatterns += [
+    path('stream/form', StreamFormView.as_view(), name='stream-form'),
+    path('stream/list', StreamListView.as_view(), name='stream-list'),
+    path('stream/details/<int:pk>', StreamDetailsView.as_view(), name='stream-details'),
+]
+
+urlpatterns += [
+    path('admin_page/market', MarketListView.as_view(), name='market'),
+    path('admin_page/stats', StatsView.as_view(), name='stats'),
+    path('admin_page/payment', PaymentView.as_view(), name='payment'),
 ]

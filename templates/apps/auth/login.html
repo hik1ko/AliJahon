@@ -14,7 +14,7 @@
                 </div>
                 {% if messages_error %}
                     {% for error_message in messages_error %}
-                    	<p>{{ error_message }}</p>
+                        <p>{{ error_message }}</p>
                     {% endfor %}
                 {% endif %}
 
@@ -37,19 +37,8 @@
                         Kirish
                     </button>
                 </div>
-
             </div>
         </form>
-
     </div>
-    <script src="https://unpkg.com/imask"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 
-    <script>
-        $('#phone-mask').inputmask({
-            "mask": "+\\9\\98(99) 999-99-99"
-        });
-        $('#messages-modal').modal('show');
-    </script>
 {% endblock %}

@@ -1,8 +1,13 @@
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Model, DateTimeField, CharField, ImageField, SlugField, TextField, FloatField, ForeignKey, \
-    CASCADE, IntegerField, TextChoices
+    CASCADE, IntegerField, TextChoices, SET_NULL
 from django.utils.text import slugify
+from django_resized import ResizedImageField
+from mptt.fields import TreeForeignKey
+from mptt.models import MPTTModel
 
 
 class CustomUserManager(BaseUserManager):
@@ -79,8 +84,9 @@ class BaseSlugModel(Model):
         return self.name
 
 
-class Category(BaseSlugModel, BaseModel):
-    image = ImageField(upload_to='images/')
+class Category(BaseSlugModel, MPTTModel):
+    image = ResizedImageField(size=[200, 200], quality=100, upload_to='images/', force_format='png', blank='True')
+    parent = TreeForeignKey('self', on_delete=CASCADE, null=True, blank=True, default=None, related_name='children')
 
     def __str__(self):
         return self.name
@@ -90,7 +96,7 @@ class Category(BaseSlugModel, BaseModel):
 #     name = CharField(max_length=255)
 
 class Product(BaseSlugModel, BaseModel):
-    description = TextField()
+    description = RichTextUploadingField()
     price = FloatField()
     quantity = IntegerField()
     category = ForeignKey('apps.Category', CASCADE, related_name='products')
@@ -110,8 +116,32 @@ class Wishlist(BaseModel):
 
 
 class Order(BaseModel):
+    class StatusType(TextChoices):
+        NEW = 'new', 'New'
+        READYFORDELIVERY = 'readyfordelivery', 'Ready for delivery'
+        DELIVERING = 'delivering', 'Delivering'
+        DELIVERED = 'delivered', 'Delivered'
+        NOTPICKEDUP = 'notpickedup', 'Not picked up'
+        CANCELLED = 'cancelled', 'Cancelled'
+        ARCHIVED = 'archived', 'Archived'
+
+    status = CharField(max_length=50, choices=StatusType.choices, default=StatusType.NEW)
     product = ForeignKey('apps.Product', CASCADE, related_name='orders')
     quantity = IntegerField(default=1)
     user = ForeignKey('apps.User', CASCADE, related_name='orders')
     full_name = CharField(max_length=255)
     phone_number = CharField(max_length=20)
+
+
+class Stream(BaseModel):
+    name = CharField(max_length=255)
+    discount = FloatField()
+    count = IntegerField(default=0)
+    product = ForeignKey('apps.Product', SET_NULL, null=True, related_name='streams')
+    owner = ForeignKey('apps.User', CASCADE, related_name='streams')
+
+    class Meta:
+        ordering = '-id',
+
+    def __str__(self):
+        return self.name
