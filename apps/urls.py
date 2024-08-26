@@ -3,7 +3,7 @@ from django.urls import path
 
 from apps.views import CategoryListView, CustomLoginView, ProductListView, OrderListView, WishListView, \
     ProfileFormView, OverallProfileView, ProductDetailView, LikeProductView, ForMpttListView, MarketListView, \
-    StreamFormView, StreamListView, StreamDetailsView, StatsView, PaymentView
+    StatsView, PaymentView
 
 urlpatterns = [
     path('', CategoryListView.as_view(), name='home'),
@@ -21,9 +21,9 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('stream/form', StreamFormView.as_view(), name='stream-form'),
-    path('stream/list', StreamListView.as_view(), name='stream-list'),
-    path('stream/details/<int:pk>', StreamDetailsView.as_view(), name='stream-details'),
+    # path('stream/form', StreamFormView.as_view(), name='stream-form'),
+    # path('stream/list', StreamListView.as_view(), name='stream-list'),
+    # path('stream/details/<int:pk>', StreamDetailsView.as_view(), name='stream-details'),
 ]
 
 urlpatterns += [

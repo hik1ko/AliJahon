@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, StackedInline
-from django.utils.html import format_html
 
 from apps.models import Category, Product, ProductImage
 

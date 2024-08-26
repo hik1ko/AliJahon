@@ -7,8 +7,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView, ListView, FormView, DetailView
 
-from apps.forms import ProfileForm, StreamForm, OrderForm
-from apps.models import Category, Product, User, Wishlist, Order, Stream
+from apps.forms import ProfileForm, OrderForm
+from apps.models import Category, Product, User, Wishlist, Order
 
 
 class CategoryListView(ListView):
@@ -138,46 +138,46 @@ class MarketListView(ListView):
         return data
 
 
-class StreamFormView(LoginRequiredMixin, FormView):
-    form_class = StreamForm
-    template_name = 'apps/stream/product_market.html'
-
-    def form_valid(self, form):
-        if form.is_valid():
-            form.save()
-        return redirect('stream-list')
-
-    def form_invalid(self, form):
-        return redirect('stream-list')
-
-
-class StreamListView(ListView):
-    queryset = Stream.objects.all()
-    template_name = 'apps/stream/stream_list.html'
-    context_object_name = 'streams'
-
-    def get_queryset(self):
-        return super().get_queryset().filter(owner=self.request.user)
+# class StreamFormView(LoginRequiredMixin, FormView):
+#     form_class = StreamForm
+#     template_name = 'apps/stream/product_market.html'
+#
+#     def form_valid(self, form):
+#         if form.is_valid():
+#             form.save()
+#         return redirect('stream-list')
+#
+#     def form_invalid(self, form):
+#         return redirect('stream-list')
 
 
-class StreamDetailsView(DetailView, FormView):
-    form_class = OrderForm
-    template_name = 'apps/product-details.html'
-    queryset = Stream.objects.all()
-    context_object_name = 'stream'
-
-    def form_valid(self, form):
-        if form.is_valid():
-            form.save()
-            form.is_stream = True
-            form.user = self.request.user
-            form.save()
-        return render(self.request, 'apps/order/product_order.html', {'form': form})
-
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['count'] = self.object.streams.count()
-        return data
+# class StreamListView(ListView):
+#     queryset = Stream.objects.all()
+#     template_name = 'apps/stream/stream_list.html'
+#     context_object_name = 'streams'
+#
+#     def get_queryset(self):
+#         return super().get_queryset().filter(owner=self.request.user)
+#
+#
+# class StreamDetailsView(DetailView, FormView):
+#     form_class = OrderForm
+#     template_name = 'apps/product-details.html'
+#     queryset = Stream.objects.all()
+#     context_object_name = 'stream'
+#
+#     def form_valid(self, form):
+#         if form.is_valid():
+#             form.save()
+#             form.is_stream = True
+#             form.user = self.request.user
+#             form.save()
+#         return render(self.request, 'apps/order/product_order.html', {'form': form})
+#
+#     def get_context_data(self, **kwargs):
+#         data = super().get_context_data(**kwargs)
+#         data['count'] = self.object.streams.count()
+#         return data
 
 
 class ForMpttListView(ListView):

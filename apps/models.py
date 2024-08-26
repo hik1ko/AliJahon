@@ -1,9 +1,8 @@
-from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Model, DateTimeField, CharField, ImageField, SlugField, TextField, FloatField, ForeignKey, \
-    CASCADE, IntegerField, TextChoices, SET_NULL
+    CASCADE, IntegerField, TextChoices
 from django.utils.text import slugify
 from django_resized import ResizedImageField
 from mptt.fields import TreeForeignKey
@@ -133,15 +132,3 @@ class Order(BaseModel):
     phone_number = CharField(max_length=20)
 
 
-class Stream(BaseModel):
-    name = CharField(max_length=255)
-    discount = FloatField()
-    count = IntegerField(default=0)
-    product = ForeignKey('apps.Product', SET_NULL, null=True, related_name='streams')
-    owner = ForeignKey('apps.User', CASCADE, related_name='streams')
-
-    class Meta:
-        ordering = '-id',
-
-    def __str__(self):
-        return self.name

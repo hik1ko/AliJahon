@@ -2,7 +2,7 @@ import re
 
 from django.forms import ModelForm, ImageField
 
-from apps.models import User, Order, Stream
+from apps.models import User, Order
 
 
 class ProfileForm(ModelForm):
@@ -23,7 +23,7 @@ class OrderForm(ModelForm):
         return re.sub('\D', '', phone_number)
 
 
-class StreamForm(ModelForm):
-    class Meta:
-        model = Stream
-        fields = 'name', 'discount', 'product', 'owner'
+# class StreamForm(ModelForm):
+#     class Meta:
+#         model = Stream
+#         fields = 'name', 'discount', 'product', 'owner'
